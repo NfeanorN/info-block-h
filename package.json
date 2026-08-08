@@ -7,7 +7,8 @@
     "dev:lan": "next dev --hostname 0.0.0.0",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "sync:almamed": "node scripts/sync-almamed.mjs"
   },
   "dependencies": {
     "next": "16.2.10",

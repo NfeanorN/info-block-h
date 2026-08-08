@@ -18,6 +18,8 @@ type FeedItem = {
   meta?: string;
   image?: string;
   accent: string;
+  /** Poster slides from almamed need full frame, not a cropped side panel */
+  layout: "split" | "poster";
 };
 
 export function HomePanels() {
@@ -35,15 +37,20 @@ export function HomePanels() {
       meta: slide.phoneHint?.[locale],
       image: slide.image,
       accent: slide.accent ?? "#0b7a75",
+      layout: "split" as const,
     }));
-    const i = info.map((slide) => ({
-      id: slide.id,
-      title: slide.title[locale],
-      body: slide.body[locale],
-      meta: slide.badge?.[locale],
-      image: slide.image,
-      accent: "#1d6fd8",
-    }));
+    const i = info.map((slide) => {
+      const isPoster = Boolean(slide.image?.includes("/almamed/"));
+      return {
+        id: slide.id,
+        title: slide.title[locale],
+        body: slide.body[locale],
+        meta: slide.badge?.[locale],
+        image: slide.image,
+        accent: "#1d6fd8",
+        layout: isPoster ? ("poster" as const) : ("split" as const),
+      };
+    });
     return [...a, ...i];
   }, [announcements, info, locale]);
 
@@ -104,17 +111,24 @@ export function HomePanels() {
         <Carousel count={feed.length} intervalMs={7000}>
           {(index) => {
             const item = feed[index];
+            const isPoster = item.layout === "poster";
+
             return (
-              <div className="overflow-hidden rounded-[28px] border border-[var(--border)] bg-white shadow-[var(--shadow-md)]">
-                <div className="grid sm:grid-cols-[1.05fr_1.2fr]">
-                  <div className="relative min-h-[160px] sm:min-h-[200px]">
+              <div className="h-[248px] overflow-hidden rounded-[28px] border border-[var(--border)] bg-white shadow-[var(--shadow-md)] sm:h-[268px]">
+                <div className="grid h-full sm:grid-cols-[1.15fr_1fr]">
+                  <div className="relative h-[120px] bg-[#eef3f8] sm:h-full">
                     {item.image ? (
                       <Image
                         src={item.image}
-                        alt=""
+                        alt={item.title}
                         fill
-                        className="object-cover"
-                        sizes="(max-width: 640px) 100vw, 280px"
+                        className={
+                          isPoster
+                            ? "object-contain object-center p-2"
+                            : "object-cover"
+                        }
+                        sizes="(max-width: 640px) 100vw, 300px"
+                        priority={index === 0}
                       />
                     ) : (
                       <div
@@ -124,7 +138,9 @@ export function HomePanels() {
                         }}
                       />
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent sm:bg-gradient-to-r sm:from-transparent sm:to-white/10" />
+                    {!isPoster && (
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent sm:bg-gradient-to-r sm:from-transparent sm:to-white/10" />
+                    )}
                     {item.phone && (
                       <div className="absolute bottom-3 left-3 rounded-2xl bg-white/95 px-3.5 py-2 shadow-sm backdrop-blur">
                         <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--fg-subtle)]">
@@ -137,16 +153,16 @@ export function HomePanels() {
                     )}
                   </div>
 
-                  <div className="flex flex-col justify-center p-5 sm:p-6">
+                  <div className="flex h-[128px] flex-col justify-center overflow-hidden p-4 sm:h-full sm:p-6">
                     {item.meta && !item.phone && (
-                      <span className="mb-2 inline-flex w-fit rounded-xl bg-[var(--primary-light)] px-3 py-1 text-xs font-bold uppercase tracking-wide text-[var(--primary)]">
+                      <span className="mb-1.5 inline-flex w-fit max-w-full truncate rounded-xl bg-[var(--primary-light)] px-3 py-1 text-xs font-bold uppercase tracking-wide text-[var(--primary)]">
                         {item.meta}
                       </span>
                     )}
-                    <h3 className="text-xl font-extrabold leading-snug text-[var(--fg)] sm:text-2xl">
+                    <h3 className="line-clamp-2 text-lg font-extrabold leading-snug text-[var(--fg)] sm:text-xl">
                       {item.title}
                     </h3>
-                    <p className="mt-2 text-base leading-relaxed text-[var(--fg-muted)]">
+                    <p className="mt-1.5 line-clamp-3 text-sm leading-relaxed text-[var(--fg-muted)] sm:text-base">
                       {item.body}
                     </p>
                   </div>

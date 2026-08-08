@@ -1,4 +1,8 @@
-import { departments, doctors, specialties } from "./mock";
+import {
+  departments,
+  doctors,
+  specialties,
+} from "@/lib/data/clinicData.generated";
 import type { Department, Doctor, Specialty } from "@/lib/types";
 
 export function getDepartments(): Department[] {

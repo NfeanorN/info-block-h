@@ -1,4 +1,4 @@
-import { legalDocs } from "./mock";
+import { legalDocs } from "@/lib/data/clinicData.generated";
 import type { LegalDoc } from "@/lib/types";
 
 export function getLegalDocs(): LegalDoc[] {

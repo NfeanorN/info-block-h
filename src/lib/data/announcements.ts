@@ -1,4 +1,5 @@
-import { announcementSlides, corruptionSlide, infoSlides } from "./mock";
+import { infoSlidesFromSite } from "@/lib/data/clinicData.generated";
+import { announcementSlides, corruptionSlide } from "./mock";
 import type { AnnouncementSlide, InfoSlide } from "@/lib/types";
 
 export function getCorruptionSlide(): AnnouncementSlide {
@@ -9,6 +10,7 @@ export function getAnnouncementSlides(): AnnouncementSlide[] {
   return announcementSlides;
 }
 
+/** Site posters only — local hours/appointment reused the same stock photos */
 export function getInfoSlides(): InfoSlide[] {
-  return infoSlides;
+  return infoSlidesFromSite;
 }
