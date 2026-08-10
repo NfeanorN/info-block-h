@@ -8,19 +8,20 @@ import {
   getCorruptionSlide,
   getInfoSlides,
 } from "@/lib/data/announcements";
+import { feedExtrasById } from "@/lib/data/feedExtras";
 import { useI18n } from "@/lib/i18n/context";
 
 type FeedItem = {
   id: string;
   title: string;
-  body: string;
+  lead: string;
+  points: string[];
   phone?: string;
   meta?: string;
-  image?: string;
   accent: string;
-  /** Poster slides from almamed need full frame, not a cropped side panel */
-  layout: "split" | "poster";
 };
+
+const CARD_HEIGHT = "h-[300px]";
 
 export function HomePanels() {
   const { t, locale } = useI18n();
@@ -29,34 +30,36 @@ export function HomePanels() {
   const info = getInfoSlides();
 
   const feed = useMemo<FeedItem[]>(() => {
-    const a = announcements.map((slide) => ({
-      id: slide.id,
-      title: slide.title[locale],
-      body: slide.body[locale],
-      phone: slide.phone,
-      meta: slide.phoneHint?.[locale],
-      image: slide.image,
-      accent: slide.accent ?? "#0b7a75",
-      layout: "split" as const,
-    }));
-    const i = info.map((slide) => {
-      const isPoster = Boolean(slide.image?.includes("/almamed/"));
+    const contacts = announcements.map((slide) => {
+      const extra = feedExtrasById[slide.id];
       return {
         id: slide.id,
         title: slide.title[locale],
-        body: slide.body[locale],
-        meta: slide.badge?.[locale],
-        image: slide.image,
-        accent: "#1d6fd8",
-        layout: isPoster ? ("poster" as const) : ("split" as const),
+        lead: extra?.lead[locale] ?? slide.body[locale],
+        points: (extra?.points ?? []).map((p) => p[locale]),
+        phone: slide.phone,
+        meta: slide.phoneHint?.[locale],
+        accent: extra?.accent ?? slide.accent ?? "#0b7a75",
       };
     });
-    return [...a, ...i];
+
+    const topics = info.map((slide) => {
+      const extra = feedExtrasById[slide.id];
+      return {
+        id: slide.id,
+        title: slide.title[locale],
+        lead: extra?.lead[locale] ?? slide.body[locale],
+        points: (extra?.points ?? []).map((p) => p[locale]),
+        meta: slide.badge?.[locale],
+        accent: extra?.accent ?? "#1d6fd8",
+      };
+    });
+
+    return [...contacts, ...topics];
   }, [announcements, info, locale]);
 
   return (
     <div className="space-y-4 animate-fade-up" style={{ animationDelay: "220ms" }}>
-      {/* Сыбайлас жемқорлық — всегда отдельно и заметно */}
       <section className="corruption-banner relative overflow-hidden rounded-[28px] shadow-[var(--shadow-lg)]">
         <div className="absolute inset-0">
           <Image
@@ -97,7 +100,6 @@ export function HomePanels() {
         </div>
       </section>
 
-      {/* Остальные объявления — с картинками */}
       <section>
         <div className="mb-3 flex items-baseline justify-between gap-3">
           <h2 className="text-lg font-extrabold tracking-tight text-[var(--fg)]">
@@ -108,66 +110,79 @@ export function HomePanels() {
           </p>
         </div>
 
-        <Carousel count={feed.length} intervalMs={7000}>
+        <Carousel count={feed.length} intervalMs={8000}>
           {(index) => {
             const item = feed[index];
-            const isPoster = item.layout === "poster";
 
             return (
-              <div className="h-[248px] overflow-hidden rounded-[28px] border border-[var(--border)] bg-white shadow-[var(--shadow-md)] sm:h-[268px]">
-                <div className="grid h-full sm:grid-cols-[1.15fr_1fr]">
-                  <div className="relative h-[120px] bg-[#eef3f8] sm:h-full">
-                    {item.image ? (
-                      <Image
-                        src={item.image}
-                        alt={item.title}
-                        fill
-                        className={
-                          isPoster
-                            ? "object-contain object-center p-2"
-                            : "object-cover"
-                        }
-                        sizes="(max-width: 640px) 100vw, 300px"
-                        priority={index === 0}
-                      />
-                    ) : (
-                      <div
-                        className="absolute inset-0"
-                        style={{
-                          background: `linear-gradient(145deg, ${item.accent}, #10233f)`,
-                        }}
-                      />
-                    )}
-                    {!isPoster && (
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent sm:bg-gradient-to-r sm:from-transparent sm:to-white/10" />
-                    )}
-                    {item.phone && (
-                      <div className="absolute bottom-3 left-3 rounded-2xl bg-white/95 px-3.5 py-2 shadow-sm backdrop-blur">
-                        <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--fg-subtle)]">
-                          {item.meta}
-                        </p>
-                        <p className="text-2xl font-extrabold tabular-nums text-[var(--fg)]">
-                          {item.phone}
-                        </p>
-                      </div>
-                    )}
-                  </div>
+              <article
+                className={`relative ${CARD_HEIGHT} overflow-hidden rounded-[28px] border-2 border-[var(--border-strong)] bg-white shadow-[var(--shadow-md)]`}
+                style={{
+                  background: `linear-gradient(145deg, ${item.accent}10 0%, #ffffff 40%, #ffffff 100%)`,
+                }}
+              >
+                <div
+                  className="absolute inset-y-0 left-0 w-1.5"
+                  style={{ background: item.accent }}
+                  aria-hidden
+                />
 
-                  <div className="flex h-[128px] flex-col justify-center overflow-hidden p-4 sm:h-full sm:p-6">
+                <div className="flex h-full flex-col px-5 py-4 sm:px-7 sm:py-5">
+                  <div className="flex shrink-0 flex-wrap items-center gap-2">
                     {item.meta && !item.phone && (
-                      <span className="mb-1.5 inline-flex w-fit max-w-full truncate rounded-xl bg-[var(--primary-light)] px-3 py-1 text-xs font-bold uppercase tracking-wide text-[var(--primary)]">
+                      <span
+                        className="inline-flex max-w-full truncate rounded-xl px-3 py-1 text-xs font-bold uppercase tracking-wide"
+                        style={{
+                          background: `${item.accent}18`,
+                          color: item.accent,
+                        }}
+                      >
                         {item.meta}
                       </span>
                     )}
-                    <h3 className="line-clamp-2 text-lg font-extrabold leading-snug text-[var(--fg)] sm:text-xl">
-                      {item.title}
-                    </h3>
-                    <p className="mt-1.5 line-clamp-3 text-sm leading-relaxed text-[var(--fg-muted)] sm:text-base">
-                      {item.body}
-                    </p>
+                    <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-[var(--fg-subtle)]">
+                      {index + 1} / {feed.length}
+                    </span>
                   </div>
+
+                  <h3 className="mt-2 shrink-0 text-xl font-extrabold leading-snug tracking-tight text-[var(--fg)] sm:text-2xl">
+                    {item.title}
+                  </h3>
+
+                  <p className="mt-1.5 shrink-0 text-sm leading-snug text-[var(--fg-muted)] sm:text-base">
+                    {item.lead}
+                  </p>
+
+                  {item.phone && (
+                    <p
+                      className="mt-2 shrink-0 text-4xl font-extrabold tabular-nums tracking-tight"
+                      style={{ color: item.accent }}
+                    >
+                      {item.phone}
+                    </p>
+                  )}
+
+                  <ul className="mt-3 grid min-h-0 flex-1 auto-rows-fr content-start gap-2 overflow-hidden sm:grid-cols-2">
+                    {item.points.map((point) => (
+                      <li
+                        key={point}
+                        className="flex min-h-[2.75rem] items-start gap-2.5 rounded-2xl border-2 bg-white px-3.5 py-2.5 text-sm font-semibold leading-snug text-[var(--fg)]"
+                        style={{
+                          borderColor: `${item.accent}55`,
+                          boxShadow: `0 1px 0 ${item.accent}14`,
+                        }}
+                      >
+                        <span
+                          className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full"
+                          style={{ background: item.accent }}
+                          aria-hidden
+                        />
+                        <span>{point}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              </div>
+              </article>
             );
           }}
         </Carousel>

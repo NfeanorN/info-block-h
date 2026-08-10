@@ -1,6 +1,5 @@
 import type { Localized } from "@/lib/types";
 
-/** КГП на ПХВ «Городская поликлиника №25», Алматы */
 export const clinic = {
   shortName: {
     ru: "ГП №25",

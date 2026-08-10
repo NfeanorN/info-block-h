@@ -36,14 +36,12 @@ const MONTHS: Record<Locale, string[]> = {
   ],
 };
 
-/** 24-сағаттық формат — Қазақстан үшін әдепкі */
 export function formatClockTime(date: Date): string {
   const h = date.getHours().toString().padStart(2, "0");
   const m = date.getMinutes().toString().padStart(2, "0");
   return `${h}:${m}`;
 }
 
-/** Мысалы: «сен, 8 там» / «сб, 8 авг» */
 export function formatClockDate(date: Date, locale: Locale): string {
   const weekday = WEEKDAYS[locale][date.getDay()];
   const day = date.getDate();

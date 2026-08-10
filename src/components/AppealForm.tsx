@@ -1,8 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FrownIcon, HomeIcon, SmileIcon } from "@/components/icons";
+import {
+  VirtualKeyboard,
+  type KeyboardField,
+} from "@/components/VirtualKeyboard";
 import { Button } from "@/components/ui/Button";
 import { Select } from "@/components/ui/Select";
 import { submitAppeal } from "@/lib/data/appeals";
@@ -15,6 +19,14 @@ import { useI18n } from "@/lib/i18n/context";
 import { formatKzPhone, isCompleteKzPhone } from "@/lib/phone";
 import type { AppealType } from "@/lib/types";
 
+const fieldClass =
+  "min-h-16 rounded-2xl border border-[var(--border)] bg-white px-5 text-lg font-semibold shadow-sm outline-none transition focus:border-[var(--primary)]/40 focus:ring-2 focus:ring-[var(--primary)]/15 cursor-pointer";
+
+const fieldActiveClass =
+  "border-[var(--primary)]/50 ring-2 ring-[var(--primary)]/20";
+
+const FIELD_ORDER: KeyboardField[] = ["name", "phone", "text"];
+
 export function AppealForm() {
   const { t, locale } = useI18n();
   const [name, setName] = useState("");
@@ -25,6 +37,15 @@ export function AppealForm() {
   const [text, setText] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState<AppealType | null>(null);
+  const [activeField, setActiveField] = useState<KeyboardField | null>(null);
+
+  useEffect(() => {
+    if (!activeField) return;
+    const el = document.querySelector<HTMLElement>(
+      `[data-kb-field="${activeField}"]`,
+    );
+    el?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [activeField]);
 
   const deptOptions = useMemo(
     () => getDepartments().map((d) => ({ value: d.id, label: d.name[locale] })),
@@ -94,6 +115,7 @@ export function AppealForm() {
       text: text.trim(),
       type,
     });
+    setActiveField(null);
     setDone(type);
   }
 
@@ -106,6 +128,48 @@ export function AppealForm() {
     setText("");
     setError(null);
     setDone(null);
+    setActiveField(null);
+  }
+
+  function applyKeyboardInput(char: string) {
+    if (!activeField) return;
+    if (activeField === "name") {
+      setName((prev) => prev + char);
+      return;
+    }
+    if (activeField === "text") {
+      setText((prev) => prev + char);
+      return;
+    }
+    setPhone((prev) => formatKzPhone(prev + char));
+  }
+
+  function applyKeyboardBackspace() {
+    if (!activeField) return;
+    if (activeField === "name") {
+      setName((prev) => prev.slice(0, -1));
+      return;
+    }
+    if (activeField === "text") {
+      setText((prev) => prev.slice(0, -1));
+      return;
+    }
+    setPhone((prev) => {
+      const next = formatKzPhone(prev.slice(0, -1));
+      return next.length < 2 ? "+7" : next;
+    });
+  }
+
+  function focusNextField() {
+    if (!activeField) return;
+    if (activeField === "text") {
+      setText((prev) => prev + "\n");
+      return;
+    }
+    const idx = FIELD_ORDER.indexOf(activeField);
+    const next = FIELD_ORDER[idx + 1];
+    if (next) setActiveField(next);
+    else setActiveField(null);
   }
 
   if (done) {
@@ -138,17 +202,27 @@ export function AppealForm() {
   }
 
   return (
-    <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-4 animate-fade-up">
+    <div
+      className={`mx-auto flex w-full max-w-3xl flex-1 flex-col gap-4 animate-fade-up ${
+        activeField ? "pb-[22rem]" : ""
+      }`}
+    >
       <div className="grid gap-4 sm:grid-cols-[1.4fr_1fr]">
         <label className="flex flex-col gap-2">
           <span className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--fg-subtle)]">
             {t.appealName}
           </span>
           <input
+            data-kb-field="name"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            readOnly
+            inputMode="none"
+            onFocus={() => setActiveField("name")}
+            onClick={() => setActiveField("name")}
             placeholder={t.appealName}
-            className="min-h-16 rounded-2xl border border-[var(--border)] bg-white px-5 text-lg font-semibold shadow-sm outline-none transition focus:border-[var(--primary)]/40 focus:ring-2 focus:ring-[var(--primary)]/15"
+            className={`${fieldClass} ${
+              activeField === "name" ? fieldActiveClass : ""
+            }`}
           />
         </label>
         <label className="flex flex-col gap-2">
@@ -156,15 +230,20 @@ export function AppealForm() {
             {t.appealPhone}
           </span>
           <input
+            data-kb-field="phone"
             value={phone}
-            onChange={(e) => setPhone(formatKzPhone(e.target.value))}
+            readOnly
+            inputMode="none"
             onFocus={() => {
               if (!phone) setPhone("+7");
+              setActiveField("phone");
             }}
+            onClick={() => setActiveField("phone")}
             placeholder="+7 (___) ___-__-__"
-            inputMode="tel"
             autoComplete="tel"
-            className="min-h-16 rounded-2xl border border-[var(--border)] bg-white px-5 text-lg font-semibold tabular-nums shadow-sm outline-none transition focus:border-[var(--primary)]/40 focus:ring-2 focus:ring-[var(--primary)]/15"
+            className={`${fieldClass} tabular-nums ${
+              activeField === "phone" ? fieldActiveClass : ""
+            }`}
           />
         </label>
       </div>
@@ -172,6 +251,7 @@ export function AppealForm() {
       <Select
         value={departmentId}
         onChange={(v) => {
+          setActiveField(null);
           setDepartmentId(v);
           resetCascade("dept");
         }}
@@ -182,6 +262,7 @@ export function AppealForm() {
       <Select
         value={specialtyId}
         onChange={(v) => {
+          setActiveField(null);
           setSpecialtyId(v);
           resetCascade("spec");
         }}
@@ -192,7 +273,10 @@ export function AppealForm() {
 
       <Select
         value={specialistId}
-        onChange={setSpecialistId}
+        onChange={(v) => {
+          setActiveField(null);
+          setSpecialistId(v);
+        }}
         options={specialistOptions}
         placeholder={t.appealSpecialist}
         disabled={!specialtyId}
@@ -203,11 +287,17 @@ export function AppealForm() {
           {t.appealText}
         </span>
         <textarea
+          data-kb-field="text"
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          readOnly
+          inputMode="none"
+          onFocus={() => setActiveField("text")}
+          onClick={() => setActiveField("text")}
           placeholder={t.appealText}
           rows={5}
-          className="min-h-36 resize-none rounded-2xl border border-[var(--border)] bg-white px-5 py-4 text-lg font-semibold shadow-sm outline-none transition focus:border-[var(--primary)]/40 focus:ring-2 focus:ring-[var(--primary)]/15"
+          className={`min-h-36 resize-none rounded-2xl border border-[var(--border)] bg-white px-5 py-4 text-lg font-semibold shadow-sm outline-none transition focus:border-[var(--primary)]/40 focus:ring-2 focus:ring-[var(--primary)]/15 cursor-pointer ${
+            activeField === "text" ? fieldActiveClass : ""
+          }`}
         />
       </label>
 
@@ -246,6 +336,22 @@ export function AppealForm() {
           {t.appealComplain}
         </Button>
       </div>
+
+      {activeField && (
+        <VirtualKeyboard
+          field={activeField}
+          labels={{
+            space: t.kbSpace,
+            save: t.kbSave,
+            lang: t.kbLang,
+          }}
+          onInput={applyKeyboardInput}
+          onBackspace={applyKeyboardBackspace}
+          onEnter={focusNextField}
+          onSave={() => setActiveField(null)}
+          onClose={() => setActiveField(null)}
+        />
+      )}
     </div>
   );
 }

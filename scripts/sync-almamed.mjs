@@ -1,7 +1,3 @@
-/**
- * Sync clinic data from http://c55.aig2.almamed.kz
- * Run: node scripts/sync-almamed.mjs
- */
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -149,7 +145,6 @@ function cleanTitle(raw) {
 function localizeLegal(title) {
   const fixed = LEGAL_TITLE_FIX[title];
   if (fixed) return fixed;
-  // Prefer Kazakh-looking titles for kk, Russian for ru when mixed
   const hasKk = /[әіңғүұқөһӘІҢҒҮҰҚӨҺ]/.test(title);
   return { ru: title, kk: hasKk ? title : title };
 }
@@ -233,7 +228,6 @@ async function main() {
     }
   }
 
-  // Only keep specialties that have at least one doctor (avoids empty selects)
   const specIdsWithDoctors = new Set(doctors.map((d) => d.specialtyId));
   const specialtiesFiltered = specialties.filter((s) =>
     specIdsWithDoctors.has(s.id),
@@ -261,8 +255,8 @@ async function main() {
       id,
       title: titles,
       body: {
-        ru: `Нормативно-правовой документ инфомата поликлиники. Полный текст доступен на информационном стенде и по запросу в регистратуре. Источник: ${base}${href}`,
-        kk: `Емхана инфоматының нормативтік-құқықтық құжаты. Толық мәтін ақпарат стендінде және тіркеуде сұрау бойынша қолжетімді. Дереккөз: ${base}${href}`,
+        ru: "Нормативно-правовой документ поликлиники. Полный текст доступен на информационном стенде и по запросу в регистратуре.",
+        kk: "Емхананың нормативтік-құқықтық құжаты. Толық мәтін ақпарат стендінде және тіркеуде сұрау бойынша қолжетімді.",
       },
     });
   }
@@ -286,7 +280,6 @@ async function main() {
 
   for (let i = 0; i < slides.length; i++) {
     const s = slides[i];
-    // Deduplicate identical OSMS titles — keep first + unique topics
     if (usedTitles.has(s.title) && s.title === "ОСМС") continue;
     usedTitles.add(s.title);
 
@@ -326,13 +319,10 @@ async function main() {
       path.join(root, "public", "brand", "feed", "bribe.png"),
     );
   } catch {
-    /* optional */
   }
 
   const outPath = path.join(root, "src", "lib", "data", "clinicData.generated.ts");
-  const header = `/* Auto-generated from ${base} — do not edit by hand */
-/* Run: node scripts/sync-almamed.mjs */
-import type { Department, Doctor, InfoSlide, LegalDoc, Specialty } from "@/lib/types";
+  const header = `import type { Department, Doctor, InfoSlide, LegalDoc, Specialty } from "@/lib/types";
 
 `;
 

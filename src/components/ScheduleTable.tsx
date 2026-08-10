@@ -9,7 +9,7 @@ import type { WeekDay } from "@/lib/types";
 const DAYS: WeekDay[] = ["mon", "tue", "wed", "thu", "fri", "sat"];
 
 function currentWeekDay(): WeekDay | null {
-  const js = new Date().getDay(); // 0 Sun .. 6 Sat
+  const js = new Date().getDay();
   const map: Record<number, WeekDay | null> = {
     0: null,
     1: "mon",

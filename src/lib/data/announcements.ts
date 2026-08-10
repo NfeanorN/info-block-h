@@ -10,7 +10,6 @@ export function getAnnouncementSlides(): AnnouncementSlide[] {
   return announcementSlides;
 }
 
-/** Site posters only — local hours/appointment reused the same stock photos */
 export function getInfoSlides(): InfoSlide[] {
   return infoSlidesFromSite;
 }

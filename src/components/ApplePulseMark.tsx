@@ -15,7 +15,6 @@ export function ApplePulseMark({
     variant === "print" ? "/brand/logo-apple-print.png" : "/brand/logo-apple.png";
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element
     <img
       src={src}
       alt=""

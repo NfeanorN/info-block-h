@@ -15,7 +15,6 @@ export function submitAppeal(payload: Omit<AppealPayload, "createdAt">): AppealP
       list.unshift(full);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(list.slice(0, 100)));
     } catch {
-      // ignore storage errors on kiosk
     }
   }
 

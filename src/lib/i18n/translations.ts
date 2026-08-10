@@ -100,6 +100,9 @@ export const translations = {
     appealSuccessComplain: "Оценка принята. Мы разберёмся.",
     appealError: "Заполните все поля",
     appealAgain: "Новая оценка",
+    kbSpace: "Пробел",
+    kbSave: "Сохранить",
+    kbLang: "EN/RU",
   },
   kk: {
     appName: "Инфомат",
@@ -202,5 +205,8 @@ export const translations = {
     appealSuccessComplain: "Бағаңыз қабылданды. Біз қарастырамыз.",
     appealError: "Барлық өрістерді толтырыңыз",
     appealAgain: "Жаңа баға",
+    kbSpace: "Бос орын",
+    kbSave: "Сақтау",
+    kbLang: "EN/RU",
   },
 } as const;

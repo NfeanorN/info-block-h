@@ -1,11 +1,5 @@
 import type { AnnouncementSlide, NavLocation } from "@/lib/types";
 
-/**
- * Навигация ГП №25 (Алматы, мкр. Дархан, Халифа Алтай 24/1).
- * Дневной стационар — 4 этаж (официальный сайт gkp25.kz).
- * Остальные этажи/крылья — по структуре отделений поликлиники.
- * Врачи / НПА / слайды — clinicData.generated.ts (node scripts/sync-almamed.mjs).
- */
 export const navLocations: NavLocation[] = [
   {
     id: "reg",
