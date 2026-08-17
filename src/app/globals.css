@@ -177,3 +177,125 @@ a {
   height: 0;
 }
 
+.schedule-board {
+  min-height: 100vh;
+  background: #12140f;
+  color: #fff;
+  padding: 0.4rem 0 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  overflow: hidden;
+  user-select: none;
+}
+
+.schedule-board-section {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.schedule-board-banner {
+  margin: 0;
+  height: 3.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: clamp(1.35rem, 2.2vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #b4ff00;
+  background: linear-gradient(180deg, #2a2e22 0%, #1a1d16 100%);
+  border-bottom: 1px solid #3e3e3e;
+}
+
+.schedule-board-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.schedule-board-table th,
+.schedule-board-table td {
+  padding: 0.28rem 0.55rem;
+  vertical-align: middle;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.schedule-board-table thead th {
+  background: #0d0d0d;
+  color: #fcff00;
+  font-size: clamp(0.85rem, 1.35vw, 1.2rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-align: left;
+  height: 2.4rem;
+  border-bottom: 1px solid #0f100e;
+}
+
+.schedule-board-table tbody td {
+  font-size: clamp(0.95rem, 1.55vw, 1.45rem);
+  font-weight: 700;
+  height: 2.2rem;
+  color: #fff;
+}
+
+.schedule-board-table tbody tr.is-even td {
+  background: #171914;
+}
+
+.schedule-board-room {
+  width: 6.5%;
+  text-align: center !important;
+  color: #69fffd !important;
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(1.05rem, 1.8vw, 1.7rem) !important;
+}
+
+.schedule-board-spec {
+  width: 22%;
+}
+
+.schedule-board-name-col,
+.schedule-board-name {
+  width: 32%;
+}
+
+.schedule-board-name {
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  font-size: clamp(0.85rem, 1.4vw, 1.25rem) !important;
+}
+
+.schedule-board-day {
+  width: 8%;
+  text-align: center !important;
+  color: #d9fdff;
+  font-variant-numeric: tabular-nums;
+}
+
+.schedule-board-table thead .schedule-board-day {
+  color: #fcff00;
+}
+
+.schedule-board-day.is-today {
+  background: #233d00 !important;
+  color: #fff;
+}
+
+.schedule-board-day.is-vacation {
+  color: #fcff00;
+}
+
+.schedule-board-day sup {
+  font-size: 60%;
+  top: -0.45em;
+  margin-left: 1px;
+}
+
+
