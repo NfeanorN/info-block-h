@@ -9,14 +9,14 @@ export default function BoardTwoPage() {
         {
           departmentId: "2",
           title: "Женская консультация",
-          days: ["mon", "tue", "wed"],
-          showRoom: false,
+          days: ["mon", "tue", "wed", "thu", "fri"],
+          showRoom: true,
         },
         {
           departmentId: "4",
           title: "Отделение участковой службы",
-          days: ["mon", "tue", "wed"],
-          showRoom: false,
+          days: ["mon", "tue", "wed", "thu", "fri"],
+          showRoom: true,
         },
       ]}
     />

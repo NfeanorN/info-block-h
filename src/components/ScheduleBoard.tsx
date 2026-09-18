@@ -112,18 +112,13 @@ export function ScheduleBoard({ sections, refreshMs = 60_000 }: Props) {
                         {specialty?.name.ru ?? "–"}
                       </td>
                       <td className="schedule-board-name">{name}</td>
-                      {section.days.map((day, dayIndex) => {
-                        let slot = "–";
-                        if (doctor.onVacation) {
-                          slot = dayIndex === 0 ? "ОТПУСК" : "–";
-                        } else if (doctor.schedule[day]) {
-                          slot = doctor.schedule[day]!;
-                        }
+                      {section.days.map((day) => {
+                        const slot = doctor.schedule[day] || "–";
                         return (
                           <td
                             key={day}
                             className={`schedule-board-day${day === today ? " is-today" : ""}${
-                              slot === "ОТПУСК" ? " is-vacation" : ""
+                              doctor.onVacation ? " is-vacation" : ""
                             }`}
                           >
                             {slot.includes(":") ? <TimeCell value={slot} /> : slot}

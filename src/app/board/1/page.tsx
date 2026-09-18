@@ -9,7 +9,7 @@ export default function BoardOnePage() {
         {
           departmentId: "2",
           title: "Женская консультация",
-          days: ["mon", "tue"],
+          days: ["mon", "tue", "wed", "thu", "fri"],
           showRoom: true,
         },
         {

@@ -308,7 +308,7 @@ export const doctors: Doctor[] = [
   },
   {
     id: "94",
-    name: "ҚАЛДАРБЕКОВА Ж.Г",
+    name: "ТУРЛИЕВА А Е",
     specialtyId: "21",
     departmentId: "2",
     room: "216",
@@ -339,8 +339,10 @@ export const doctors: Doctor[] = [
     specialtyId: "15",
     departmentId: "3",
     room: "317",
-    schedule: {},
-    onVacation: true
+    schedule: {
+      mon: "15:00–18:00",
+      wed: "15:00–18:00"
+    }
   },
   {
     id: "72",
@@ -363,10 +365,11 @@ export const doctors: Doctor[] = [
     departmentId: "3",
     room: "316",
     schedule: {
-      mon: "13:30–16:30",
-      wed: "13:30–16:30",
-      fri: "13:30–16:30"
-    }
+      mon: "14:00–16:30",
+      wed: "14:00–16:30",
+      fri: "14:00–16:30"
+    },
+    onVacation: true
   },
   {
     id: "93",
@@ -378,7 +381,8 @@ export const doctors: Doctor[] = [
       mon: "09:00–13:00",
       thu: "09:00–13:00",
       fri: "13:00–17:00"
-    }
+    },
+    onVacation: true
   },
   {
     id: "117",
@@ -456,6 +460,7 @@ export const doctors: Doctor[] = [
     departmentId: "3",
     room: "309",
     schedule: {
+      wed: "12:30–15:00",
       fri: "09:00–12:00"
     }
   },
@@ -465,10 +470,7 @@ export const doctors: Doctor[] = [
     specialtyId: "25",
     departmentId: "3",
     room: "315",
-    schedule: {
-      sat: "09:00–12:00"
-    },
-    onVacation: true
+    schedule: {}
   },
   {
     id: "92",
@@ -478,8 +480,8 @@ export const doctors: Doctor[] = [
     room: "309",
     schedule: {
       mon: "09:00–13:00",
-      wed: "09:00–13:00",
-      thu: "09:00–10:30"
+      tue: "09:00–11:00",
+      wed: "09:00–11:00"
     }
   },
   {
@@ -541,49 +543,49 @@ export const doctors: Doctor[] = [
   },
   {
     id: "97",
-    name: "Накипбекова.Г.Н",
+    name: "ҚУАТ А. Қ.",
     specialtyId: "39",
     departmentId: "4",
-    room: "311",
+    room: "310",
     schedule: {
-      mon: "10:00–14:00",
-      tue: "10:00–14:00",
-      wed: "10:00–14:00",
-      thu: "10:00–14:00",
-      fri: "10:00–14:00"
+      mon: "17:00–20:00",
+      tue: "14:00–17:00",
+      wed: "17:00–20:00",
+      thu: "14:00–17:00",
+      fri: "14:00–17:00"
     }
   },
   {
     id: "98",
-    name: "Кабдолданова А .А",
+    name: "КУРБАНОВА. Р. А.",
     specialtyId: "40",
     departmentId: "4",
     room: "311",
     schedule: {
-      mon: "14:00–16:00",
-      tue: "14:00–16:00",
-      wed: "14:00–16:00",
-      thu: "14:00–16:00",
-      fri: "14:00–16:00"
+      mon: "14:00–17:00",
+      tue: "17:00–20:00",
+      wed: "14:00–17:00",
+      thu: "17:00–20:00",
+      fri: "14:00–17:00"
     }
   },
   {
     id: "99",
-    name: "Әмірбек Д. Б.",
+    name: "ӘМІРБЕК Д. Б.",
     specialtyId: "41",
     departmentId: "4",
     room: "310",
     schedule: {
-      mon: "08:00–11:00",
-      tue: "11:00–14:00",
-      wed: "08:00–11:00",
-      thu: "11:00–14:00",
-      fri: "08:00–11:00"
+      mon: "08:00–14:00",
+      tue: "08:00–14:00",
+      wed: "08:00–14:00",
+      thu: "08:00–14:00",
+      fri: "08:00–14:00"
     }
   },
   {
     id: "100",
-    name: "Сарсенова У А",
+    name: "МЭЛИСОВА. А Д",
     specialtyId: "42",
     departmentId: "4",
     room: "314",
@@ -591,41 +593,41 @@ export const doctors: Doctor[] = [
       mon: "08:00–14:00",
       tue: "14:00–20:00",
       wed: "08:00–14:00",
-      thu: "14:00–20:00",
+      thu: "15:00–20:00",
       fri: "08:00–14:00"
     }
   },
   {
     id: "101",
-    name: "Әмірбек Д. Б.",
+    name: "ХАНАЛИЕВА. Ш У",
     specialtyId: "43",
     departmentId: "4",
     room: "310",
     schedule: {
-      mon: "11:30–14:00",
-      tue: "08:00–11:00",
-      wed: "11:30–14:00",
-      thu: "08:00–11:00",
-      fri: "11:30–14:00"
+      mon: "14:00–17:00",
+      tue: "11:30–14:00",
+      wed: "17:00–20:00",
+      thu: "11:30–14:00",
+      fri: "08:00–11:00"
     }
   },
   {
     id: "102",
-    name: "Әмірбек Д. Б.",
+    name: "КУРБАНОВА. Р. А.",
     specialtyId: "44",
     departmentId: "4",
     room: "311",
     schedule: {
-      mon: "14:00–16:00",
-      tue: "14:00–16:00",
-      wed: "14:00–18:00",
-      thu: "14:00–16:00",
-      fri: "14:00–16:00"
+      mon: "17:00–20:00",
+      tue: "14:00–17:00",
+      wed: "17:00–20:00",
+      thu: "14:00–17:00",
+      fri: "17:00–20:00"
     }
   },
   {
     id: "103",
-    name: "Әкімханова.А.Ж",
+    name: "ӘКІМХАНОВА. А. Ж.",
     specialtyId: "45",
     departmentId: "4",
     room: "314",
@@ -639,21 +641,21 @@ export const doctors: Doctor[] = [
   },
   {
     id: "104",
-    name: "Қуат А. Қ.",
+    name: "ҚУАТ А. Қ.",
     specialtyId: "46",
     departmentId: "4",
     room: "310",
     schedule: {
-      mon: "14:00–20:00",
-      tue: "14:00–20:00",
-      wed: "14:00–20:00",
-      thu: "15:00–20:00",
-      fri: "14:00–20:00"
+      mon: "14:00–17:00",
+      tue: "17:00–20:00",
+      wed: "14:00–17:00",
+      thu: "17:00–20:00",
+      fri: "17:00–20:00"
     }
   },
   {
     id: "105",
-    name: "Накипбекова.Г.Н",
+    name: "ӘМІРБЕК Д. Б.",
     specialtyId: "47",
     departmentId: "4",
     room: "311",
@@ -667,114 +669,86 @@ export const doctors: Doctor[] = [
   },
   {
     id: "106",
-    name: "Ахимбекова. Н.Б",
+    name: "ДЖАКЕШОВ. А. Т.",
     specialtyId: "48",
     departmentId: "4",
     room: "301",
     schedule: {
-      mon: "14:00–16:00",
-      tue: "12:00–14:00",
-      wed: "18:00–20:00",
-      thu: "08:00–10:00",
-      fri: "08:00–10:00"
+      mon: "11:00–14:00",
+      tue: "14:00–17:00",
+      wed: "08:00–11:00",
+      thu: "17:00–20:00",
+      fri: "08:00–11:00"
     }
   },
   {
     id: "107",
-    name: "Джакешов А. Т",
+    name: "СУНАТУЛЛА И. Х.",
     specialtyId: "49",
     departmentId: "4",
     room: "301",
     schedule: {
-      mon: "10:00–14:00",
-      tue: "16:30–20:00",
-      wed: "08:00–12:00",
-      thu: "15:00–18:00",
-      fri: "10:00–14:00"
+      mon: "17:00–20:00",
+      tue: "08:00–11:00",
+      wed: "14:00–17:00",
+      thu: "11:00–14:00",
+      fri: "08:00–11:00"
     }
   },
   {
     id: "108",
-    name: "Джакешов А. Т",
+    name: "ТОЙГАНБАЕВА. Ж. Т.",
     specialtyId: "50",
     departmentId: "4",
     room: "301",
     schedule: {
-      mon: "08:00–10:00",
-      tue: "14:00–16:00",
-      wed: "12:00–14:00",
-      thu: "18:00–20:00",
-      fri: "08:00–10:00"
-    }
-  },
-  {
-    id: "109",
-    name: "Перне А. Д",
-    specialtyId: "51",
-    departmentId: "4",
-    room: "205",
-    schedule: {
-      mon: "14:00–20:00",
+      mon: "08:00–14:00",
       tue: "14:00–20:00",
-      wed: "14:00–20:00",
+      wed: "08:00–14:00",
       thu: "15:00–20:00",
       fri: "14:00–20:00"
     }
   },
   {
+    id: "109",
+    name: "ТҮРЛЫБЕКОВА. Н Ж",
+    specialtyId: "51",
+    departmentId: "4",
+    room: "205",
+    schedule: {
+      mon: "11:30–14:00",
+      tue: "08:00–11:00",
+      wed: "08:00–11:00",
+      thu: "11:30–14:00",
+      fri: "08:00–11:00"
+    }
+  },
+  {
     id: "110",
-    name: "ТҰРЛЫБЕКОВА. Н Ж",
+    name: "ТҮРЛЫБЕКОВА. Н Ж",
     specialtyId: "52",
     departmentId: "4",
-    room: "220",
+    room: "205",
     schedule: {
-      mon: "08:00–14:00",
-      tue: "08:00–14:00",
-      wed: "08:00–14:00",
-      thu: "08:00–14:00",
-      fri: "08:00–14:00"
+      mon: "08:00–11:00",
+      tue: "11:30–14:00",
+      wed: "11:30–14:00",
+      thu: "08:00–11:00",
+      fri: "11:30–14:00"
     }
   },
   {
     id: "111",
-    name: "Сунатулла И. Х",
+    name: "СУНАТУЛЛА И. Х.",
     specialtyId: "53",
     departmentId: "4",
     room: "302",
     schedule: {
-      mon: "14:00–20:00",
-      tue: "08:00–14:00",
-      wed: "16:30–20:00",
-      thu: "08:00–14:00",
-      fri: "16:30–20:00"
-    }
-  },
-  {
-    id: "112",
-    name: "Ахимбекова.Н.Б",
-    specialtyId: "54",
-    departmentId: "4",
-    room: "301",
-    schedule: {
-      mon: "16:30–20:00",
-      tue: "08:00–12:00",
-      wed: "14:00–18:00",
-      thu: "10:00–14:00",
-      fri: "10:00–14:00"
-    }
-  },
-  {
-    id: "113",
-    name: "Қошқарбек.Ш.Ж",
-    specialtyId: "55",
-    departmentId: "4",
-    room: "205",
-    schedule: {
-      mon: "08:00–14:00",
-      tue: "08:00–14:00",
-      wed: "14:00–18:00",
-      thu: "08:00–14:00",
-      fri: "14:00–18:00"
+      mon: "14:00–17:00",
+      tue: "11:30–14:00",
+      wed: "17:00–20:00",
+      thu: "08:00–11:00",
+      fri: "11:30–14:00"
     }
   }
 ];
