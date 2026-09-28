@@ -21,7 +21,7 @@ type FeedItem = {
   accent: string;
 };
 
-const CARD_HEIGHT = "h-[300px]";
+const CARD_HEIGHT = "min-h-[320px] h-auto sm:min-h-[340px]";
 
 export function HomePanels() {
   const { t, locale } = useI18n();
@@ -116,18 +116,13 @@ export function HomePanels() {
 
             return (
               <article
-                className={`relative ${CARD_HEIGHT} overflow-hidden rounded-[28px] border-2 border-[var(--border-strong)] bg-white shadow-[var(--shadow-md)]`}
+                className={`relative ${CARD_HEIGHT} rounded-[28px] border-2 border-[var(--border-strong)] bg-white shadow-[var(--shadow-md)]`}
                 style={{
                   background: `linear-gradient(145deg, ${item.accent}10 0%, #ffffff 40%, #ffffff 100%)`,
+                  borderColor: `${item.accent}55`,
                 }}
               >
-                <div
-                  className="absolute inset-y-0 left-0 w-1.5"
-                  style={{ background: item.accent }}
-                  aria-hidden
-                />
-
-                <div className="flex h-full flex-col px-5 py-4 sm:px-7 sm:py-5">
+                <div className="flex h-full flex-col px-5 py-5 sm:px-7 sm:py-6">
                   <div className="flex shrink-0 flex-wrap items-center gap-2">
                     {item.meta && !item.phone && (
                       <span
@@ -149,7 +144,7 @@ export function HomePanels() {
                     {item.title}
                   </h3>
 
-                  <p className="mt-1.5 shrink-0 text-sm leading-snug text-[var(--fg-muted)] sm:text-base">
+                  <p className="mt-1.5 shrink-0 text-sm leading-relaxed text-[var(--fg-muted)] sm:text-base">
                     {item.lead}
                   </p>
 
@@ -162,22 +157,22 @@ export function HomePanels() {
                     </p>
                   )}
 
-                  <ul className="mt-3 grid min-h-0 flex-1 auto-rows-fr content-start gap-2 overflow-hidden sm:grid-cols-2">
+                  <ul className="mt-4 grid grid-cols-1 content-start gap-2.5 sm:grid-cols-2">
                     {item.points.map((point) => (
                       <li
                         key={point}
-                        className="flex min-h-[2.75rem] items-start gap-2.5 rounded-2xl border-2 bg-white px-3.5 py-2.5 text-sm font-semibold leading-snug text-[var(--fg)]"
+                        className="flex items-start gap-2.5 rounded-2xl border-2 bg-white px-3.5 py-3 text-sm font-semibold leading-relaxed text-[var(--fg)]"
                         style={{
                           borderColor: `${item.accent}55`,
                           boxShadow: `0 1px 0 ${item.accent}14`,
                         }}
                       >
                         <span
-                          className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full"
+                          className="mt-[0.45rem] h-2.5 w-2.5 shrink-0 rounded-full"
                           style={{ background: item.accent }}
                           aria-hidden
                         />
-                        <span>{point}</span>
+                        <span className="min-w-0 flex-1 break-words">{point}</span>
                       </li>
                     ))}
                   </ul>
