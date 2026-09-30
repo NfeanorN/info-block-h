@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useMemo } from "react";
 import { Carousel } from "@/components/Carousel";
 import {
@@ -8,6 +9,7 @@ import {
   getCorruptionSlide,
   getInfoSlides,
 } from "@/lib/data/announcements";
+import { featureFeedCards } from "@/lib/data/clinicDocs";
 import { feedExtrasById } from "@/lib/data/feedExtras";
 import { useI18n } from "@/lib/i18n/context";
 
@@ -19,6 +21,7 @@ type FeedItem = {
   phone?: string;
   meta?: string;
   accent: string;
+  docHref?: string;
 };
 
 const CARD_HEIGHT = "min-h-[320px] h-auto sm:min-h-[340px]";
@@ -30,6 +33,16 @@ export function HomePanels() {
   const info = getInfoSlides();
 
   const feed = useMemo<FeedItem[]>(() => {
+    const features = featureFeedCards.map((card) => ({
+      id: card.id,
+      title: card.title[locale],
+      lead: card.lead[locale],
+      points: card.points.map((p) => p[locale]),
+      meta: card.badge[locale],
+      accent: card.accent,
+      docHref: `/legal/${card.docId}/`,
+    }));
+
     const contacts = announcements.map((slide) => {
       const extra = feedExtrasById[slide.id];
       return {
@@ -55,7 +68,7 @@ export function HomePanels() {
       };
     });
 
-    return [...contacts, ...topics];
+    return [...features, ...contacts, ...topics];
   }, [announcements, info, locale]);
 
   return (
@@ -176,6 +189,16 @@ export function HomePanels() {
                       </li>
                     ))}
                   </ul>
+
+                  {item.docHref && (
+                    <Link
+                      href={item.docHref}
+                      className="mt-4 inline-flex min-h-14 w-full shrink-0 items-center justify-center rounded-2xl px-5 text-base font-extrabold text-white shadow-sm transition active:scale-[0.99] sm:w-auto sm:self-start"
+                      style={{ background: item.accent }}
+                    >
+                      {t.more}
+                    </Link>
+                  )}
                 </div>
               </article>
             );

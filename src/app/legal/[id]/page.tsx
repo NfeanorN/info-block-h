@@ -12,6 +12,7 @@ export default function LegalDetailPage() {
   const params = useParams();
   const id = typeof params.id === "string" ? params.id : "";
   const doc = getLegalDocById(id);
+  const paragraphs = doc ? doc.body[locale].split(/\n\n+/).filter(Boolean) : [];
 
   if (!doc) {
     return (
@@ -53,9 +54,16 @@ export default function LegalDetailPage() {
         <h2 className="text-2xl font-extrabold tracking-tight text-[var(--fg)]">
           {doc.title[locale]}
         </h2>
-        <p className="mt-5 text-lg leading-relaxed text-[var(--fg-muted)]">
-          {doc.body[locale]}
-        </p>
+        <div className="mt-5 space-y-3">
+          {paragraphs.map((p) => (
+            <p
+              key={p.slice(0, 48)}
+              className="text-lg leading-relaxed text-[var(--fg-muted)]"
+            >
+              {p}
+            </p>
+          ))}
+        </div>
       </article>
     </KioskShell>
   );
