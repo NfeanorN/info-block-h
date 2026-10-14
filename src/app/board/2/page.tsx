@@ -13,6 +13,12 @@ export default function BoardTwoPage() {
           showRoom: true,
         },
         {
+          departmentId: "5",
+          title: "Отделение профилактической помощи",
+          days: ["mon", "tue", "wed", "thu", "fri"],
+          showRoom: true,
+        },
+        {
           departmentId: "4",
           title: "Отделение участковой службы",
           days: ["mon", "tue", "wed", "thu", "fri"],

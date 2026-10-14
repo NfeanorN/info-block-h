@@ -151,8 +151,30 @@ textarea {
   animation: fade-in 0.35s ease-out both;
 }
 
+.carousel-track {
+  display: grid;
+  align-items: stretch;
+}
+
+/* All slides share one cell: the track takes the tallest slide's height,
+   and every slide stretches to it, so switching never changes layout. */
 .carousel-slide {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.carousel-slide > * {
+  flex: 1 1 auto;
+}
+
+.carousel-slide[data-active="true"] {
   animation: fade-in 0.4s ease-out both;
+}
+
+.carousel-slide:not([data-active="true"]) {
+  visibility: hidden;
 }
 
 @media (max-width: 640px) {
@@ -178,15 +200,46 @@ a {
 }
 
 .schedule-board {
-  min-height: 100vh;
+  height: 100vh;
+  height: 100dvh;
   background: #12140f;
   color: #fff;
-  padding: 0.4rem 0 0.8rem;
+  padding: 0.25rem 0 0.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.1rem;
-  overflow: hidden;
+  gap: 0.65rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: #7cff00 #1a1d16;
   user-select: none;
+}
+
+.schedule-board::-webkit-scrollbar {
+  width: 10px;
+}
+
+.schedule-board::-webkit-scrollbar-track {
+  background: linear-gradient(180deg, #1a1d16 0%, #12140f 100%);
+  border-left: 1px solid #2a2e22;
+}
+
+.schedule-board::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #b4ff00 0%, #5aaa00 100%);
+  border-radius: 999px;
+  border: 2px solid #1a1d16;
+  min-height: 48px;
+}
+
+.schedule-board::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #d4ff4d 0%, #7cff00 100%);
+}
+
+.schedule-board::-webkit-scrollbar-corner {
+  background: #12140f;
 }
 
 .schedule-board-section {
@@ -197,14 +250,14 @@ a {
 
 .schedule-board-banner {
   margin: 0;
-  height: 3.4rem;
+  height: 2.4rem;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-size: clamp(1.35rem, 2.2vw, 2.1rem);
+  font-size: clamp(0.95rem, 1.5vw, 1.35rem);
   font-weight: 800;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: #b4ff00;
   background: linear-gradient(180deg, #2a2e22 0%, #1a1d16 100%);
@@ -219,7 +272,7 @@ a {
 
 .schedule-board-table th,
 .schedule-board-table td {
-  padding: 0.28rem 0.55rem;
+  padding: 0.12rem 0.28rem;
   vertical-align: middle;
   white-space: nowrap;
   overflow: hidden;
@@ -229,19 +282,19 @@ a {
 .schedule-board-table thead th {
   background: #0d0d0d;
   color: #fcff00;
-  font-size: clamp(0.85rem, 1.35vw, 1.2rem);
+  font-size: clamp(0.65rem, 0.95vw, 0.85rem);
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   text-align: left;
-  height: 2.4rem;
+  height: 1.7rem;
   border-bottom: 1px solid #0f100e;
 }
 
 .schedule-board-table tbody td {
-  font-size: clamp(0.95rem, 1.55vw, 1.45rem);
+  font-size: clamp(0.7rem, 1.05vw, 0.95rem);
   font-weight: 700;
-  height: 2.2rem;
+  height: 1.55rem;
   color: #fff;
 }
 
@@ -250,37 +303,42 @@ a {
 }
 
 .schedule-board-room {
-  width: 6.5%;
+  width: 5.5%;
   text-align: center !important;
   color: #69fffd !important;
   font-variant-numeric: tabular-nums;
-  font-size: clamp(1.05rem, 1.8vw, 1.7rem) !important;
+  font-size: clamp(0.75rem, 1.15vw, 1.05rem) !important;
 }
 
 .schedule-board-spec {
-  width: 22%;
+  width: 18%;
 }
 
 .schedule-board-name-col,
 .schedule-board-name {
-  width: 32%;
+  width: 28%;
 }
 
 .schedule-board-name {
   text-transform: uppercase;
-  letter-spacing: 0.02em;
-  font-size: clamp(0.85rem, 1.4vw, 1.25rem) !important;
+  letter-spacing: 0.01em;
+  font-size: clamp(0.62rem, 0.95vw, 0.85rem) !important;
 }
 
 .schedule-board-day {
-  width: 8%;
+  width: 9.5%;
   text-align: center !important;
   color: #d9fdff;
   font-variant-numeric: tabular-nums;
+  font-size: clamp(0.62rem, 0.95vw, 0.85rem) !important;
+  letter-spacing: -0.02em;
+  overflow: visible;
+  text-overflow: clip;
 }
 
 .schedule-board-table thead .schedule-board-day {
   color: #fcff00;
+  font-size: clamp(0.65rem, 0.95vw, 0.85rem) !important;
 }
 
 .schedule-board-day.is-today {
@@ -293,9 +351,8 @@ a {
 }
 
 .schedule-board-day sup {
-  font-size: 60%;
-  top: -0.45em;
-  margin-left: 1px;
+  font-size: 55%;
+  top: -0.4em;
+  margin-left: 0;
 }
-
 

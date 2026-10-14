@@ -129,13 +129,13 @@ export function HomePanels() {
 
             return (
               <article
-                className={`relative ${CARD_HEIGHT} rounded-[28px] border-2 border-[var(--border-strong)] bg-white shadow-[var(--shadow-md)]`}
+                className={`relative flex flex-col ${CARD_HEIGHT} rounded-[28px] border-2 border-[var(--border-strong)] bg-white shadow-[var(--shadow-md)]`}
                 style={{
                   background: `linear-gradient(145deg, ${item.accent}10 0%, #ffffff 40%, #ffffff 100%)`,
                   borderColor: `${item.accent}55`,
                 }}
               >
-                <div className="flex h-full flex-col px-5 py-5 sm:px-7 sm:py-6">
+                <div className="flex flex-1 flex-col px-5 py-5 sm:px-7 sm:py-6">
                   <div className="flex shrink-0 flex-wrap items-center gap-2">
                     {item.meta && !item.phone && (
                       <span
@@ -170,7 +170,7 @@ export function HomePanels() {
                     </p>
                   )}
 
-                  <ul className="mt-4 grid grid-cols-1 content-start gap-2.5 sm:grid-cols-2">
+                  <ul className="mt-4 grid flex-1 grid-cols-1 content-start gap-2.5 sm:grid-cols-2">
                     {item.points.map((point) => (
                       <li
                         key={point}

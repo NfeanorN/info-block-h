@@ -21,6 +21,13 @@ export const departments: Department[] = [
       ru: "Отделение участковой службы",
       kk: "Учаскелік қызмет бөлімшесі"
     }
+  },
+  {
+    id: "5",
+    name: {
+      ru: "Отделение профилактической помощи",
+      kk: "Профилактикалық көмек бөлімшесі"
+    }
   }
 ];
 
@@ -288,6 +295,14 @@ export const specialties: Specialty[] = [
       kk: "№17 педиатрия"
     },
     departmentId: "4"
+  },
+  {
+    id: "60",
+    name: {
+      ru: "Специалист",
+      kk: "Маман"
+    },
+    departmentId: "5"
   }
 ];
 

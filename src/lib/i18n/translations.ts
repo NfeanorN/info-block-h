@@ -72,6 +72,9 @@ export const translations = {
     legalHint: "Нажмите на документ, чтобы открыть",
     legalEmpty: "Документы не найдены",
     legalContent: "Текст документа",
+    legalQrHeading: "Наведите камеру телефона на QR-код",
+    legalDocsHeading: "Документы",
+    legalNpaHeading: "Нормативные правовые акты (НПА)",
 
     scheduleHeading: "Расписание приёма",
     scheduleHint: "Фильтр по специальности",
@@ -177,6 +180,9 @@ export const translations = {
     legalHint: "Ашу үшін құжатты басыңыз",
     legalEmpty: "Құжаттар табылмады",
     legalContent: "Құжат мәтіні",
+    legalQrHeading: "Телефон камерасын QR-кодқа бағыттаңыз",
+    legalDocsHeading: "Құжаттар",
+    legalNpaHeading: "Нормативтік құқықтық актілер (НҚА)",
 
     scheduleHeading: "Қабылдау кестесі",
     scheduleHint: "Мамандық бойынша сүзгі",

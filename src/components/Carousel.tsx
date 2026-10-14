@@ -27,8 +27,17 @@ export function Carousel({
 
   return (
     <div className={`relative ${className}`}>
-      <div key={index} className="carousel-slide">
-        {children(index)}
+      <div className="carousel-track">
+        {Array.from({ length: count }, (_, slideIndex) => (
+          <div
+            key={slideIndex}
+            className="carousel-slide"
+            data-active={slideIndex === index}
+            aria-hidden={slideIndex !== index}
+          >
+            {children(slideIndex)}
+          </div>
+        ))}
       </div>
       {count > 1 && (
         <div className="mt-4 flex items-center justify-center gap-2">
