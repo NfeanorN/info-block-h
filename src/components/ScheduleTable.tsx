@@ -4,28 +4,16 @@ import { useMemo, useState } from "react";
 import { Select } from "@/components/ui/Select";
 import { getDoctors, getSpecialties, getSpecialtyById } from "@/lib/data/doctors";
 import { useI18n } from "@/lib/i18n/context";
+import { useToday } from "@/lib/useToday";
 import type { WeekDay } from "@/lib/types";
 
 const DAYS: WeekDay[] = ["mon", "tue", "wed", "thu", "fri", "sat"];
 
-function currentWeekDay(): WeekDay | null {
-  const js = new Date().getDay();
-  const map: Record<number, WeekDay | null> = {
-    0: null,
-    1: "mon",
-    2: "tue",
-    3: "wed",
-    4: "thu",
-    5: "fri",
-    6: "sat",
-  };
-  return map[js] ?? null;
-}
 
 export function ScheduleTable() {
   const { t, locale } = useI18n();
   const [specialtyId, setSpecialtyId] = useState("");
-  const today = currentWeekDay();
+  const today = useToday();
 
   const specialtyOptions = useMemo(
     () => [

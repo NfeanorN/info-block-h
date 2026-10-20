@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { getDoctors, getSpecialtyById } from "@/lib/data/doctors";
 import { BOARD_STORAGE_KEY } from "@/lib/data/boardConstants";
+import { useToday } from "@/lib/useToday";
 import type { Doctor, WeekDay } from "@/lib/types";
 
 export type BoardSection = {
@@ -26,18 +27,6 @@ const DAY_LABELS: Record<WeekDay, string> = {
   sat: "СБ",
 };
 
-function currentWeekDay(): WeekDay | null {
-  const map: Record<number, WeekDay | null> = {
-    0: null,
-    1: "mon",
-    2: "tue",
-    3: "wed",
-    4: "thu",
-    5: "fri",
-    6: "sat",
-  };
-  return map[new Date().getDay()] ?? null;
-}
 
 function TimeCell({ value }: { value: string }) {
   const match = value.match(/^(\d{1,2}):(\d{2})\s*[–-]\s*(\d{1,2}):(\d{2})$/);
@@ -62,7 +51,7 @@ function doctorsForSection(
 }
 
 export function ScheduleBoard({ sections, refreshMs = 60_000 }: Props) {
-  const today = currentWeekDay();
+  const today = useToday();
   const [liveDoctors, setLiveDoctors] = useState<Doctor[] | null>(null);
 
   useEffect(() => {
